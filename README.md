@@ -19,11 +19,11 @@ services:
         environment:
             - TZ=Europe/Berlin
 ```
-This example can be found [here]().
+This example can be found [here](https://github.com/christopher-besch/docker_cron/tree/main/example).
 
 ## The `docker_cron` container
 All you have to do is add the `docker_cron` container to your `docker-compose.yaml`, give it read/write access to the docker socket and specify your timezone.
-Now all containers that defined the `CRON_TIME` environment variable [receive a HUP signal](#the-sighup) whenever [their `CRON_TIME`](cron-time) matches the current minute.
+Now all containers that defined the `CRON_TIME` environment variable [receive a HUP signal](#the-hup-signal) whenever [their `CRON_TIME`](#cron-time) matches the current minute.
 (This magic is performed by [docker-gen](https://github.com/nginx-proxy/docker-gen).)
 
 ## `CRON_TIME`
@@ -34,7 +34,7 @@ Now all containers that defined the `CRON_TIME` environment variable [receive a 
 4. Month of the year [1,12]
 5. Day of the week ([0,6] with 0=Sunday)
 Each field can also be an `*`, meaning all valid values.
-This is from an [extract from `man crontab`](#cron_time-definition-from-man-crontab).
+This is from an [extract from `man crontab`](#man-crontab-extract).
 
 ## The HUP Signal
 When the current minute matches the `CRON_TIME` of a container, that container receives a HUP signal.
@@ -51,11 +51,8 @@ done
 ```
 Make sure that you don't `set -e` because that causes the trap to exit the script.
 
-# `CRON_TIME` definition from `man crontab`
+# `man crontab` extract
 ```
-In the POSIX locale, the user or application shall ensure that a crontab entry is a text file consisting of lines of six fields each.  The fields shall be separated by <blank>  characters.  The  first
-five fields shall be integer patterns that specify the following:
-
 1. Minute [0,59]
 
 2. Hour [0,23]
@@ -66,10 +63,16 @@ five fields shall be integer patterns that specify the following:
 
 5. Day of the week ([0,6] with 0=Sunday)
 
-Each  of  these  patterns  can be either an <asterisk> (meaning all valid values), an element, or a list of elements separated by <comma> characters. An element shall be either a number or two numbers
-separated by a <hyphen-minus> (meaning an inclusive range). The specification of days can be made by two fields (day of the month and day of the week). If month, day of month, and day of week are  all
-<asterisk> characters, every day shall be matched. If either the month or day of month is specified as an element or list, but the day of week is an <asterisk>, the month and day of month fields shall
-specify the days that match. If both month and day of month are specified as an <asterisk>, but day of week is an element or list, then only the specified days of the week match.  Finally,  if  either
-the  month or day of month is specified as an element or list, and the day of week is also specified as an element or list, then any day matching either the month and day of month, or the day of week,
-shall be matched.
+Each of these patterns can be either an <asterisk> (meaning all valid values), an  ele‐
+ment, or a list of elements separated by <comma> characters. An element shall be either
+a number or two numbers separated by a <hyphen-minus> (meaning an inclusive range). The
+specification of days can be made by two fields (day of the month and day of the week).
+If month, day of month, and day of week are all <asterisk> characters, every day  shall
+be matched. If either the month or day of month is specified as an element or list, but
+the day of week is an <asterisk>, the month and day of month fields shall  specify  the
+days that match. If both month and day of month are specified as an <asterisk>, but day
+of week is an element or list, then only the specified days of the week match. Finally,
+if  either the month or day of month is specified as an element or list, and the day of
+week is also specified as an element or list, then any day matching  either  the  month
+and day of month, or the day of week, shall be matched.
 ```
