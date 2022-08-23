@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+    docker_cron_example:
+        image: chrisbesch/docker_cron_example
+        environment:
+            - "CRON_TIME=* * * * *"
+      
+    docker_cron:
+        image: chrisbesch/docker_cron
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock:rw"
+        environment:
+            - TZ=Europe/Berlin
+
