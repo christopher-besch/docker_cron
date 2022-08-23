@@ -23,7 +23,7 @@ This example can be found [here](https://github.com/christopher-besch/docker_cro
 
 ## The `docker_cron` container
 All you have to do is add the `docker_cron` container to your `docker-compose.yaml`, give it read/write access to the docker socket and specify your timezone.
-Now all containers that defined the `CRON_TIME` environment variable [receive a HUP signal](#the-hup-signal) whenever [their `CRON_TIME`](#cron-time) matches the current minute.
+Now all containers that defined the `CRON_TIME` environment variable [receive a HUP signal](#the-hup-signal) whenever [their `CRON_TIME`](#cron_time) matches the current minute.
 (This magic is performed by [docker-gen](https://github.com/nginx-proxy/docker-gen).)
 
 ## `CRON_TIME`
