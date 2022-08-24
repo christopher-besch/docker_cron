@@ -14,10 +14,7 @@ RUN git clone https://github.com/nginx-proxy/docker-gen \
     && cd - \
     && rm -rf /go/docker-gen
 
-FROM debian
-
-RUN apt-get update && \
-    apt-get install -y cron
+FROM alpine:latest
 
 # install docker-gen
 COPY --from=dockergen /usr/local/bin/docker-gen /usr/local/bin/docker-gen
