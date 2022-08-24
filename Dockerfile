@@ -16,6 +16,7 @@ RUN git clone https://github.com/nginx-proxy/docker-gen \
 
 FROM alpine:latest
 
+# using docker-gen to get create crontab and send SIGHUP -> no docker install needed
 # install docker-gen
 COPY --from=dockergen /usr/local/bin/docker-gen /usr/local/bin/docker-gen
 

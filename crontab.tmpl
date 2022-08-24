@@ -1,5 +1,3 @@
-# redirect output to stdout and stderr of cron process -> usable docker logs
-# using docker-gen to send SIGHUP -> no docker install needed
 {{ range $cron_time, $containers := groupBy $ "Env.CRON_TIME" }}
     {{ if trim $cron_time }}
         {{ range $container := $containers }}
