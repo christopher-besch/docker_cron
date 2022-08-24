@@ -1,8 +1,10 @@
 # redirect output to stdout and stderr of cron process -> usable docker logs
+# using docker-gen to send SIGHUP -> no docker install needed
 {{ range $cron_time, $containers := groupBy $ "Env.CRON_TIME" }}
     {{ if trim $cron_time }}
         {{ range $container := $containers }}
-{{ printf $cron_time }} docker kill -s HUP {{ printf $container.ID }} 1>/proc/$(cat /var/run/crond.pid)/fd/1 2>/proc/$(cat /var/run/crond.pid)/fd/2
+{{ printf $cron_time }} /usr/local/bin/docker-gen -notify-sighup {{ printf $container.ID }} /dev/null 1>/proc/$(cat /var/run/crond.pid)/fd/1 2>/proc/$(cat /var/run/crond.pid)/fd/2
         {{ end }}
     {{ end }}
 {{ end }}
+
