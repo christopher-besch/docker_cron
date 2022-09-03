@@ -1,7 +1,8 @@
-{{ range $cron_time, $containers := groupBy $ "Env.CRON_TIME" }}
-    {{ if trim $cron_time }}
+{{ range $CRON_TIME, $containers := groupBy $ "Env.CRON_TIME" }}
+    {{ if trim $CRON_TIME }}
         {{ range $container := $containers }}
-{{ printf $cron_time }} /usr/local/bin/docker-gen -notify-sighup {{ printf $container.ID }} /dev/null 1>/proc/$(cat /var/run/crond.pid)/fd/1 2>/proc/$(cat /var/run/crond.pid)/fd/2
+        {{ $CRON_SIGNAL := coalesce $container.Env.CRON_SIGNAL "0x1" }}
+{{ printf $CRON_TIME }} /usr/local/bin/docker-gen -notify-container {{ printf $container.ID }} -notify-signal {{ printf $CRON_SIGNAL }} /dev/null 1>/proc/$(cat /var/run/crond.pid)/fd/1 2>/proc/$(cat /var/run/crond.pid)/fd/2
         {{ end }}
     {{ end }}
 {{ end }}

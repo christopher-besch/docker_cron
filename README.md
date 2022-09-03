@@ -11,6 +11,9 @@ services:
         environment:
             # this container's task runs every day at 03:00
             - "CRON_TIME=0 3 * * *"
+            # it receives a HUP signal (since this is the default, this env variable can be omitted)
+            # all signals here: https://github.com/fsouza/go-dockerclient/blob/01804dec8a84d0a77e63611f2b62d33e9bb2b64a/signal.go
+            - CRON_SIGNAL=0x13
       
     docker_cron:
         image: chrisbesch/docker_cron
@@ -50,6 +53,47 @@ while :; do
 done
 ```
 Make sure that you don't `set -e` because that causes the trap to exit the script.
+
+## Sending Other Signals
+If you want your container to receive a different signal, set the `CRON_SIGNAL` environment variable of the target container to the integer that identifies your desired signal.
+Use this table to reference the correct one (from [here](https://github.com/fsouza/go-dockerclient/blob/01804dec8a84d0a77e63611f2b62d33e9bb2b64a/signal.go)):
+| Signal    | int    |
+|:--------- |:------ |
+| SIGABRT   | `0x6`  |
+| SIGALRM   | `0xe`  |
+| SIGBUS    | `0x7`  |
+| SIGCHLD   | `0x11` |
+| SIGCLD    | `0x11` |
+| SIGCONT   | `0x12` |
+| SIGFPE    | `0x8`  |
+| SIGHUP    | `0x1`  |
+| SIGILL    | `0x4`  |
+| SIGINT    | `0x2`  |
+| SIGIO     | `0x1d` |
+| SIGIOT    | `0x6`  |
+| SIGKILL   | `0x9`  |
+| SIGPIPE   | `0xd`  |
+| SIGPOLL   | `0x1d` |
+| SIGPROF   | `0x1b` |
+| SIGPWR    | `0x1e` |
+| SIGQUIT   | `0x3`  |
+| SIGSEGV   | `0xb`  |
+| SIGSTKFLT | `0x10` |
+| SIGSTOP   | `0x13` |
+| SIGSYS    | `0x1f` |
+| SIGTERM   | `0xf`  |
+| SIGTRAP   | `0x5`  |
+| SIGTSTP   | `0x14` |
+| SIGTTIN   | `0x15` |
+| SIGTTOU   | `0x16` |
+| SIGUNUSED | `0x1f` |
+| SIGURG    | `0x17` |
+| SIGUSR1   | `0xa`  |
+| SIGUSR2   | `0xc`  |
+| SIGVTALRM | `0x1a` |
+| SIGWINCH  | `0x1c` |
+| SIGXCPU   | `0x18` |
+| SIGXFSZ   | `0x19` |
 
 # `man crontab` extract
 ```

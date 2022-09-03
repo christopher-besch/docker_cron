@@ -1,11 +1,19 @@
 version: "3.9"
 
 services:
-    DockerCronExample:
-        image: chrisbesch/docker_cron_example
-        build: ./docker_cron_example
+    DockerCronExample1:
+        image: chrisbesch/docker_cron_example1
+        build: ./docker_cron_example1
         environment:
             - "CRON_TIME=* * * * *"
+              
+    DockerCronExample2:
+        image: chrisbesch/docker_cron_example2
+        build: ./docker_cron_example2
+        environment:
+            - "CRON_TIME=* * * * *"
+            # all signals here: https://github.com/fsouza/go-dockerclient/blob/01804dec8a84d0a77e63611f2b62d33e9bb2b64a/signal.go
+            - CRON_SIGNAL=0x13
       
     DockerCron:
         image: chrisbesch/docker_cron
