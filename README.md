@@ -13,7 +13,7 @@ services:
             - "CRON_TIME=0 3 * * *"
             # it receives a HUP signal (since this is the default, this env variable can be omitted)
             # all signals here: https://github.com/fsouza/go-dockerclient/blob/01804dec8a84d0a77e63611f2b62d33e9bb2b64a/signal.go
-            - CRON_SIGNAL=0x13
+            - CRON_SIGNAL=0x1
       
     docker_cron:
         image: chrisbesch/docker_cron
