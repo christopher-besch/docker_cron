@@ -3,6 +3,7 @@ version: "3.9"
 services:
     DockerCronExample:
         image: chrisbesch/docker_cron_example
+        build: ./docker_cron_example
         environment:
             - "CRON_TIME=* * * * *"
       
