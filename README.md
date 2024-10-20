@@ -120,3 +120,16 @@ if  either the month or day of month is specified as an element or list, and the
 week is also specified as an element or list, then any day matching  either  the  month
 and day of month, or the day of week, shall be matched.
 ```
+
+# Building Multiarch Docker Image
+```
+docker build --platform linux/amd64 -t chrisbesch/docker_cron:amd64 . &&
+docker build --platform linux/arm64 -t chrisbesch/docker_cron:arm64 . &&
+docker push chrisbesch/docker_cron:amd64 &&
+docker push chrisbesch/docker_cron:arm64 &&
+docker manifest create chrisbesch/docker_cron \
+    chrisbesch/docker_cron:amd64 \
+    chrisbesch/docker_cron:arm64 &&
+docker manifest inspect chrisbesch/docker_cron &&
+docker manifest push chrisbesch/docker_cron
+```

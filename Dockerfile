@@ -2,7 +2,7 @@ ARG DOCKER_GEN_VERSION=0.9.0
 
 # build docker-gen
 # from https://github.com/nginx-proxy/nginx-proxy/blob/main/Dockerfile
-FROM golang as dockergen
+FROM golang AS dockergen
 ARG DOCKER_GEN_VERSION
 RUN git clone https://github.com/nginx-proxy/docker-gen \
     && cd /go/docker-gen \
